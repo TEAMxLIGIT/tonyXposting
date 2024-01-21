@@ -1,0 +1,36 @@
+#@sastatony, @poolnft,@sasta_tonystark
+
+# post.py
+
+import asyncio
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from config import api_id, api_hash, bot_token, session_name
+
+app = Client(session_name, api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+
+# Variable to keep track of whether the userbot should continue running
+userbot_running = True
+
+@app.on_message(filters.regex(r'[.,/]') & filters.user(owner_id))
+async def handle_post(_, message: Message):
+    global userbot_running
+
+    if userbot_running:
+        if message.text.startswith('.post') or message.text.startswith('/post') or message.text.startswith(',"/post'):
+            post_text = message.text[6:]  # Adjust the index based on your command structure
+            send_time = 30  # Adjust the time delay as needed (in seconds)
+
+            # Get a list of all groups the user is a member of
+            dialogs = await app.get_dialogs()
+            for dialog in dialogs:
+                if dialog.chat.type in ["group", "supergroup"]:
+                    await message.reply_chat_action("typing")
+                    await asyncio.sleep(send_time)
+                    await app.send_message(dialog.chat.id, post_text)
+        elif message.text.startswith('.stop') or message.text.startswith('/stop') or message.text.startswith(',"/stop'):
+            userbot_running = False
+            await message.reply_text('Userbot stopped.')
+
+if __name__ == "__main__":
+    app.run()

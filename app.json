@@ -1,0 +1,50 @@
+{
+  "name": "sasta-tony-userbot",
+  "description": "Sasta Tony Userbot - Auto Posting Userbot",
+  "repository": "https://github.com/your-username/sasta-tony-userbot",
+  "logo": "https://te.legra.ph/file/89569cfe6abf0f52a5477.jpg",
+  "keywords": ["telegram", "userbot", "pyrogram"],
+  "env": {
+    "API_ID": {
+      "description": "Your Telegram API ID",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Your Telegram API Hash",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Your Bot Token",
+      "required": true
+    },
+    "OWNER_ID": {
+      "description": "Your Telegram User ID (Owner ID)",
+      "required": true
+    },
+    "SESSION_NAME": {
+      "description": "Unique identifier for the Pyrogram session",
+      "required": true
+    }
+  },
+  "scripts": {
+    "start": "python -m tony"
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "12"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  }
+}

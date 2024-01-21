@@ -1,0 +1,15 @@
+# config.py
+
+# config.py
+
+api_id = 'YOUR_API_ID'
+api_hash = 'YOUR_API_HASH'
+
+# Userbot configuration
+userbot_token = 'YOUR_USERBOT_TOKEN'
+userbot_session_name = 'YOUR_USERBOT_SESSION_NAME'
+owner_id = YOUR_TELEGRAM_USER_ID
+
+# Bot configuration
+bot_token = 'YOUR_BOT_TOKEN'
+bot_session_name = 'YOUR_BOT_SESSION_NAME'

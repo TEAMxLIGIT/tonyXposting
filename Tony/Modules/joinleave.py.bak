@@ -1,0 +1,48 @@
+# joinleave.py
+
+import asyncio
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from config import api_id, api_hash, bot_token, owner_id
+
+app = Client('userbot_session', api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+
+# Variable to keep track of whether the userbot should continue running
+userbot_running = True
+
+@app.on_message(filters.regex(r'[.,/]') & filters.user(owner_id))
+async def handle_join_leave_command(_, message: Message):
+    global userbot_running
+
+    if userbot_running:
+        if message.text.startswith(',"/join'):
+            await join_group_channel(message)
+        elif message.text.startswith(',"/leave'):
+            await leave_group_channel(message)
+
+async def join_group_channel(message: Message):
+    command_parts = message.text.split(' ')
+    if len(command_parts) == 3:
+        group_channel_link = command_parts[2]
+        await app.join_chat(group_channel_link)
+        await message.reply_text(f"Successfully joined: {group_channel_link}")
+    else:
+        await message.reply_text("Invalid command format. Use ',"/join @group/channel username or link'.")
+
+async def leave_group_channel(message: Message):
+    if message.chat.type in ["group", "supergroup"]:
+        await app.leave_chat(message.chat.id)
+        await app.send_message(message.chat.id, "Bye bye! 👋")
+    elif message.text.startswith(',"/leave'):
+        command_parts = message.text.split(' ')
+        if len(command_parts) == 3:
+            group_channel_link = command_parts[2]
+            await app.leave_chat(group_channel_link)
+            await message.reply_text(f"Successfully left: {group_channel_link}")
+        else:
+            await message.reply_text("Invalid command format. Use ',"/leave @group/channel username/link'.")
+    else:
+        await message.reply_text("Invalid command. Use ',"/leave' in a group to leave the current group.")
+
+if __name__ == "__main__":
+    app.run()

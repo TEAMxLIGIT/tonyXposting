@@ -1,0 +1,11 @@
+version: '3'
+services:
+  userbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python3 -m Tony
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
